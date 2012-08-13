@@ -1,0 +1,15 @@
+book:
+
+<?php for ($i = 1; $i <= 10; $i++): ?>
+    book_<?php echo $i ?>:
+      title: book_#_<?php echo $i; ?>
+
+      publisher: <?php $publishers = array('Bertlesmann', 'Taschen', 'Antenne Books', 'Bison Books'); $key = array_rand($publishers); echo $publishers[$key]; ?>
+
+      price: <?php echo rand($i, $i*10)/3; ?>
+
+      bookseller_id: <?php echo rand($i*10, $i*1000); ?>
+
+      rebate: <?php echo rand(0, 25); ?>
+
+<?php endfor ?>

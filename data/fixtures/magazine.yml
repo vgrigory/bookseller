@@ -1,0 +1,19 @@
+magazine:
+
+<?php for ($i = 1; $i <= 10; $i++): ?>
+    magazine_<?php echo $i ?>:
+      title: magazine_#_<?php echo $i; ?>
+
+      date_of_publication: <?php echo date('Y-m-d H:i:s'); ?>
+
+      price: <?php echo rand($i, $i*10); ?>
+
+      bookseller_id: <?php echo rand($i*10, $i*1000); ?>
+
+      sold_out: <?php echo rand(0, 1); ?>
+
+      can_be_reordered: <?php echo rand(0, 1); ?>
+
+      rebate: <?php echo rand(0, 25); ?>
+
+<?php endfor ?>

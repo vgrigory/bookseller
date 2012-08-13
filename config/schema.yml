@@ -1,0 +1,26 @@
+propel:
+  _attributes:
+    package: lib.model
+    defaultIdMethod: native
+  book:
+    _attributes: { phpName: Book }
+    id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
+    title: { phpName: Title, type: VARCHAR, size: '60', required: true }
+    publisher: { phpName: Publisher, type: VARCHAR, size: '60', required: false }
+    price: { phpName: Price, type: FLOAT, size: '6', scale: '2', required: true }
+    bookseller_id: { phpName: BooksellerId, type: INTEGER, size: '11', required: true }
+    rebate: { phpName: Rebate, type: FLOAT, size: '3', scale: '1', required: false, defaultValue: '0.0' }
+    created_at: { phpName: CreatedAt, type: TIMESTAMP, required: false }
+    _uniques: { U_key_2: [title, price, bookseller_id], U_key_1: [title, publisher, bookseller_id] }
+  magazine:
+    _attributes: { phpName: Magazine }
+    id: { phpName: Id, type: INTEGER, size: '11', primaryKey: true, autoIncrement: true, required: true }
+    title: { phpName: Title, type: VARCHAR, size: '60', required: true }
+    date_of_publication: { phpName: DateOfPublication, type: TIMESTAMP, required: false }
+    price: { phpName: Price, type: FLOAT, size: '6', scale: '2', required: true }
+    bookseller_id: { phpName: BooksellerId, type: INTEGER, size: '11', required: true }
+    sold_out: { phpName: SoldOut, type: TINYINT, size: '4', required: false, defaultValue: '0' }
+    can_be_reordered: { phpName: CanBeReordered, type: TINYINT, size: '4', required: false, defaultValue: '1' }
+    rebate: { phpName: Rebate, type: FLOAT, size: '3', scale: '1', required: false, defaultValue: '0.0' }
+    created_at: { phpName: CreatedAt, type: TIMESTAMP, required: false }
+    _uniques: { U_key_2: [title, price, bookseller_id], U_key_1: [title, date_of_publication, bookseller_id] }
