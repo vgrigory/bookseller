@@ -12,7 +12,7 @@ $(document).ready(function() {
     var magazineColNames = ['id', 'title', 'pub. date', 'price', 'bookseller', 'sold out', 'can be reordered', 'rebate'];
     var magazineColModel = [
                         {name:'id', index:'id', width:55},
-                        {name:'title', index:'title', width:55},
+                        {name:'title', index:'title', width:85},
                         {name:'pub. date', index:'pubdate', width:110},
                         {name:'price', index:'price', width:100},
                         {name:'bookseller', index:'bookseller', width:80},
@@ -46,8 +46,6 @@ $(document).ready(function() {
                 createGrid(bookColNames, bookColModel);
                 break;
         }
-
-        requestData();
     });
 
     function requestData(){
@@ -59,7 +57,7 @@ $(document).ready(function() {
         grid.setGridParam({
             url: 'listAjax?id='+booksellerId+"&type="+type
         });
-        console.log('listAjax?id='+booksellerId+"&type="+type);
+
         switch(type){
             case 'book':
                 grid.setCaption("Books of #"+booksellerId+" bookseller");
@@ -77,26 +75,31 @@ $(document).ready(function() {
 
     function createGrid(colNames, colModel){
 
-        var grid = $("#result_list");
+        var type = $('#entity_type').val();
+        var booksellerId = $('#bookseller_id').val();
 
+        var grid = $("#result_list");
         grid.jqGrid({
-            url:'listAjax',
+            url: 'listAjax?id='+booksellerId+"&type="+type,
             datatype: "json",
             colNames: colNames,
             colModel: colModel,
-            rowNum:5,
-            rowList:[10,20,30],
-            pager: '#result_list_pager',
-            sortname: 'title',
-            viewrecords: true,
-            sortorder: "desc"
+            sortable: false,
+            height: 240
         });
 
-        grid.jqGrid('navGrid','#result_list_pager',{
-            edit:false,
-            add:false,
-            del:false,
-            search:false
-        });
+        switch(type){
+            case 'book':
+                grid.setCaption("Books of #"+booksellerId+" bookseller");
+                break;
+            case 'magazine':
+                grid.setCaption("Magazines of #"+booksellerId+" bookseller");
+                break;
+            default:
+                grid.setCaption("Books of #"+booksellerId+" bookseller");
+                break;
+        }
+
+        grid.trigger("reloadGrid");
     }
 });
