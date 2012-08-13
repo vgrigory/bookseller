@@ -1,72 +1,16 @@
 $(document).ready(function() {
 
-    var grid = $("#result_list");
-    grid.jqGrid({
-        url:'listAjax',
-        datatype: "json",
-        colNames: ['id', 'title', 'publisher', 'price', 'bookseller', 'rebate'],
-        colModel: [
+    var bookColNames = ['id', 'title', 'publisher', 'price', 'bookseller', 'rebate'];
+    var bookColModel = [
         {name:'id', index:'id', width:55},
         {name:'title', index:'title', width:55},
         {name:'publisher', index:'publisher', width:90},
         {name:'price', index:'price', width:100},
         {name:'bookseller', index:'bookseller', width:80},
         {name:'rebate', index:'rebate', width:80}
-        ],
-        rowNum:5,
-        rowList:[10,20,30],
-        pager: '#result_list_pager',
-        sortname: 'title',
-        viewrecords: true,
-        sortorder: "desc"
-    });
-
-    grid.jqGrid('navGrid','#result_list_pager',{
-        edit:false,
-        add:false,
-        del:false,
-        search:false
-    });
-
-    $('#bookseller_id').keyup(function(evt){
-
-        requestData(evt);
-    });
-
-    $('#entity_type').change(function(evt){
-
-        requestData(evt);
-    });
-
-    function requestData(evt){
-
-        var type = $('#entity_type').val();
-        var booksellerId = $('#bookseller_id').val();
-
-        grid.setGridParam({
-            url: 'listAjax?id='+booksellerId+"&type="+type
-        });
-        switch(type){
-            case 'book':
-                grid.setCaption("Books of #"+booksellerId+" bookseller");
-                grid.setGridParam({
-                    colNames: ['id', 'title', 'publisher', 'price', 'bookseller', 'rebate'],
-                    colModel: [
-                        {name:'id', index:'id', width:55},
-                        {name:'title', index:'title', width:55},
-                        {name:'publisher', index:'publisher', width:90},
-                        {name:'price', index:'price', width:100},
-                        {name:'bookseller', index:'bookseller', width:80},
-                        {name:'rebate', index:'rebate', width:80}
-                    ]
-                });
-                break;
-            case 'magazine':
-                console.log('akajahat');
-                grid.setCaption("Magazines of #"+booksellerId+" bookseller");
-                grid.setGridParam({
-                    colNames: ['id', 'title', 'pub. date', 'price', 'bookseller', 'sold out', 'can be reordered', 'rebate'],
-                    colModel: [
+        ];
+    var magazineColNames = ['id', 'title', 'pub. date', 'price', 'bookseller', 'sold out', 'can be reordered', 'rebate'];
+    var magazineColModel = [
                         {name:'id', index:'id', width:55},
                         {name:'title', index:'title', width:55},
                         {name:'pub. date', index:'pubdate', width:110},
@@ -75,25 +19,84 @@ $(document).ready(function() {
                         {name:'sold out', index:'sold_out', width:120},
                         {name:'can be reordered', index:'can_be_reordered', width:120},
                         {name:'rebate', index:'rebate', width:80}
-                    ]
-                });
+                    ];
+
+    // init book grid
+    createGrid(bookColNames, bookColModel);
+
+    $('#bookseller_id').keyup(function(evt){
+
+        requestData();
+    });
+
+    $('#entity_type').change(function(evt){
+
+        var type = $('#entity_type').val();
+
+        $("#result_list").jqGrid('GridUnload');
+
+        switch(type){
+            case 'book':
+                createGrid(bookColNames, bookColModel);
+                break;
+            case 'magazine':
+                createGrid(magazineColNames, magazineColModel);
+                break;
+            default:
+                createGrid(bookColNames, bookColModel);
+                break;
+        }
+
+        requestData();
+    });
+
+    function requestData(){
+
+        var type = $('#entity_type').val();
+        var booksellerId = $('#bookseller_id').val();
+
+        var grid = $("#result_list");
+        grid.setGridParam({
+            url: 'listAjax?id='+booksellerId+"&type="+type
+        });
+        console.log('listAjax?id='+booksellerId+"&type="+type);
+        switch(type){
+            case 'book':
+                grid.setCaption("Books of #"+booksellerId+" bookseller");
+                break;
+            case 'magazine':
+                grid.setCaption("Magazines of #"+booksellerId+" bookseller");
                 break;
             default:
                 grid.setCaption("Books of #"+booksellerId+" bookseller");
-                grid.setGridParam({
-                    colNames: ['id', 'title', 'publisher', 'price', 'bookseller', 'rebate'],
-                    colModel: [
-                        {name:'id', index:'id', width:55},
-                        {name:'title', index:'title', width:55},
-                        {name:'publisher', index:'publisher', width:90},
-                        {name:'price', index:'price', width:100},
-                        {name:'bookseller', index:'bookseller', width:80},
-                        {name:'rebate', index:'rebate', width:80}
-                    ]
-                });
                 break;
         }
 
         grid.trigger("reloadGrid");
+    }
+
+    function createGrid(colNames, colModel){
+
+        var grid = $("#result_list");
+
+        grid.jqGrid({
+            url:'listAjax',
+            datatype: "json",
+            colNames: colNames,
+            colModel: colModel,
+            rowNum:5,
+            rowList:[10,20,30],
+            pager: '#result_list_pager',
+            sortname: 'title',
+            viewrecords: true,
+            sortorder: "desc"
+        });
+
+        grid.jqGrid('navGrid','#result_list_pager',{
+            edit:false,
+            add:false,
+            del:false,
+            search:false
+        });
     }
 });
