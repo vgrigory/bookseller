@@ -14,4 +14,3 @@
     <option value="magazine">magazine</option>
 </select>
 <table id="result_list"></table>
-<div id="result_list_pager"></div>
