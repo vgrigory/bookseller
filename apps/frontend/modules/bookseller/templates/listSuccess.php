@@ -4,7 +4,6 @@
 <?php use_javascript('bookseller/list.js') ?>
 <?php use_stylesheet('vendor/jquery-ui/jquery-ui-1.8.22.custom/css/redmond/jquery-ui-1.8.22.custom.css') ?>
 <?php use_stylesheet('vendor/jquery.jqGrid-4.4.0/ui.jqgrid.css') ?>
-<?php use_stylesheet('bookseller/list.css') ?>
 
 <h1>List bookseller books/magazines</h1>
 <br/><br/>
