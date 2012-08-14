@@ -85,7 +85,8 @@ $(document).ready(function() {
             colNames: colNames,
             colModel: colModel,
             sortable: false,
-            height: 240
+            height: 240,
+            altRows: true
         });
 
         switch(type){
